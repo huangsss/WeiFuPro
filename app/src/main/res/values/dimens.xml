@@ -6,6 +6,5 @@
     <dimen name="login_btn_marginleft">40dp</dimen>
     <dimen name="login_btn_marginright">40dp</dimen>
     <dimen name="login_login_margintop">24dp</dimen>
-    <dimen name="login_regist_margintop">16dp</dimen>
     <dimen name="login_edit_hint">14sp</dimen>
 </resources>
