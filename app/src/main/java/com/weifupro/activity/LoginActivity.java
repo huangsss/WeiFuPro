@@ -18,9 +18,22 @@ import android.widget.Toast;
 
 import com.weifupro.MainActivity;
 import com.weifupro.R;
+import com.weifupro.bean.LoginBeanResult;
+import com.weifupro.bean.User;
+import com.weifupro.net.OkHttpManager;
+import com.weifupro.utils.GetJsonDatas;
+import com.weifupro.utils.SharePreUtil;
 import com.weifupro.utils.StatusbarUtils;
 
+import org.litepal.crud.DataSupport;
 import org.litepal.tablemanager.Connector;
+
+import java.io.IOException;
+import java.util.List;
+
+import okhttp3.Request;
+
+import static com.weifupro.utils.Constant.Login;
 
 /**
  * 一、登陆界面
@@ -44,9 +57,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mContext = this;
         SQLiteDatabase db = Connector.getDatabase();
-
-
-
         if (checkLogin()) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
@@ -59,7 +69,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean checkLogin() {
         //获取数据库用户;
-
+        List<User> userList = DataSupport.findAll(User.class);
+        if(userList != null && userList.size() > 0){
+            return true;
+        }
         return false;
     }
 
@@ -87,7 +100,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d("print", "afterTextChanged: ssssssswwwssss");
                 userNameisOk();
             }
         });
@@ -114,14 +126,12 @@ public class LoginActivity extends AppCompatActivity {
      * 监听
      */
     private void initListener() {
-
         mBtn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 login();
             }
         });
-
     }
 
     /**
@@ -129,8 +139,56 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void login() {
         if (checkData()) {
-            //可以进行登录
-            Toast.makeText(mContext, "可以进行登录", Toast.LENGTH_SHORT).show();
+            Log.d("print", "login: 数据正确、可以进行登录");
+            // 数据正确、可以进行登录
+            mReLoading.setVisibility(View.VISIBLE);//显示登陆加载界面;
+            //Post发送登陆请求;
+            OkHttpManager.getInstance().postNet(Login, new OkHttpManager.ResultCallback() {
+                @Override
+                public void onFaild(Request request, IOException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mReLoading.setVisibility(View.GONE);//登录失败.去除Loading条
+                            Toast.makeText(LoginActivity.this,"连接服务器失败，登录失败",Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                }
+
+                @Override
+                public void onSuccess(String response) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mReLoading.setVisibility(View.GONE);//登录成功.去除Loading条
+                        }
+                    });
+                    LoginBeanResult loginBeanResult = GetJsonDatas.getLoginInfoData(response);
+                    if (loginBeanResult.getCode() == 0){
+                        //用户存在，密码正确，登录成功,先保存登录信息，然后跳转至主界面
+                        SharePreUtil.SetShareString(mContext,"userid",loginBeanResult.getBody().getUserid());
+                        //先清除数据库
+                        DataSupport.deleteAll(User.class);
+                        User user = new User();
+                        user.setUserId(loginBeanResult.getBody().getUserid());
+                        user.setNickName(loginBeanResult.getBody().getNickname());
+                        user.setSex(loginBeanResult.getBody().getSex());
+                        user.setJob(loginBeanResult.getBody().getJob());
+                        user.setArea(loginBeanResult.getBody().getArea());
+                        user.setPhoneNum(loginBeanResult.getBody().getPhonenum());
+                        user.setImg(loginBeanResult.getBody().getImg());
+                        //保存到数据库之中
+                        user.save();
+                        startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                        finish();
+                    }else{
+                        //登录失败
+                        Toast.makeText(LoginActivity.this, "登录失败！请检查账号或者密码", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            },new OkHttpManager.Param("userid",mUserName),new OkHttpManager.Param("password",mPassWord));
+
         }
     }
 

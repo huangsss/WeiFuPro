@@ -1,10 +1,12 @@
 package com.weifupro.bean;
 
+import org.litepal.crud.DataSupport;
+
 /**
  * Created by "huangsays"  on 2017/7/7.19:06"huangays@gmail.com"
  */
 
-public class User {
+public class User extends DataSupport {
     private int id;
     private String userId;
     private String passWord;
@@ -12,7 +14,7 @@ public class User {
     private String nickName;
     private int sex;
     private String img;
-    private String phoneImg;
+    private String phoneNum;
     private String area;
 
     public int getId() {
@@ -71,12 +73,12 @@ public class User {
         this.img = img;
     }
 
-    public String getPhoneImg() {
-        return phoneImg;
+    public String getPhoneNum() {
+        return phoneNum;
     }
 
-    public void setPhoneImg(String phoneImg) {
-        this.phoneImg = phoneImg;
+    public void setPhoneNum(String phoneImg) {
+        this.phoneNum = phoneImg;
     }
 
     public String getArea() {
@@ -97,7 +99,7 @@ public class User {
                 ", nickName='" + nickName + '\'' +
                 ", sex=" + sex +
                 ", img='" + img + '\'' +
-                ", phoneImg='" + phoneImg + '\'' +
+                ", phoneImg='" + phoneNum + '\'' +
                 ", area='" + area + '\'' +
                 '}';
     }
