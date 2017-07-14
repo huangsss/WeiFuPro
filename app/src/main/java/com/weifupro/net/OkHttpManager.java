@@ -43,10 +43,8 @@ public class OkHttpManager {
      **/
     public static OkHttpManager getInstance() {
         if (instance == null) {
-            Log.d("print", "getInstance: ssssssss");
             synchronized (OkHttpManager.class) {
                 if (instance == null) {
-                    Log.d("print", "getInstance: ssss22222");
                     instance = new OkHttpManager();
                 }
             }
@@ -92,7 +90,6 @@ public class OkHttpManager {
      */
     private void dealNet(final Request request, final ResultCallback resultCallback) {
         if (mOkHttpClient==null){
-            Log.d("print", "dealNet: mOkHttpClient == null");
             return;
         }
         mOkHttpClient.newCall(request).enqueue(new Callback() {
@@ -110,7 +107,6 @@ public class OkHttpManager {
                     e.printStackTrace();
                 }
                 final String finalStr = str;
-                Log.d("print", "onResponse: " + finalStr);
                 okHandler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -131,10 +127,8 @@ public class OkHttpManager {
     public static class Param {
         String key;
         String value;
-
         public Param() {
         }
-
         public Param(String key, String value) {
             this.key = key;
             this.value = value;
