@@ -1,18 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.weifupro.MainActivity">
+    android:layout_height="wrap_content"
+    android:id="@+id/root_layout"
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/title_up_layout"
+        layout="@layout/title_bar_activity" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/main_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </android.support.v4.view.ViewPager>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <RadioGroup
+        android:id="@+id/main_rg"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:background="@color/color_bottom_layout_bg"
+        android:paddingBottom="@dimen/main_menu_padding">
 
-</android.support.constraint.ConstraintLayout>
+        <RadioButton
+            android:id="@+id/main_rb1"
+            style="@style/menu_radioButtonStyle"
+            android:drawableTop="@drawable/menu_home_selector"
+            android:text="@string/activity_main_menu_home" />
+
+        <RadioButton
+            android:id="@+id/main_rb2"
+            style="@style/menu_radioButtonStyle"
+            android:drawableTop="@drawable/menu_shop_selector"
+            android:text="@string/activity_main_menu_shop" />
+
+        <RadioButton
+            android:id="@+id/main_rb3"
+            style="@style/menu_radioButtonStyle"
+            android:drawableTop="@drawable/menu_visit_selector"
+            android:text="@string/activity_main_menu_visit" />
+
+        <RadioButton
+            android:id="@+id/main_rb4"
+            style="@style/menu_radioButtonStyle"
+            android:drawableTop="@drawable/menu_train_selector"
+            android:text="@string/activity_main_menu_train" />
+
+        <RadioButton
+            android:id="@+id/main_rb5"
+            style="@style/menu_radioButtonStyle"
+            android:drawableTop="@drawable/menu_me_selector"
+            android:text="@string/activity_main_menu_me" />
+
+    </RadioGroup>
+</LinearLayout>

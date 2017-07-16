@@ -5,4 +5,19 @@
     <string name="activity_login_et_password_hint">请输入密码 </string>
     <string name="activity_login_et_btn_login">登录</string>
     <string name="activity_login_et_btn_regist">注册</string>
+    <string name="activity_main_menu_home">首页</string>
+    <string name="activity_main_menu_shop">巡店</string>
+    <string name="activity_main_menu_visit">拜访</string>
+    <string name="activity_main_menu_train">培训</string>
+    <string name="activity_main_menu_me">个人中心</string>
+
+    <string name="txt_home">首页</string>
+    <string name="txt_shop">巡店</string>
+    <string name="txt_visit">拜访</string>
+    <string name="txt_train">培训</string>
+    <string name="txt_me">个人中心</string>
+
+    <string name="please_login">你尚未登录,请先登录</string>
+
+
 </resources>

@@ -3,7 +3,7 @@
 
     <item>
         <rotate
-            android:drawable="@mipmap/spinner_small_inner"
+            android:drawable="@drawable/spinner_small_inner"
             android:fromDegrees="0"
             android:pivotX="50%"
             android:pivotY="50%"
@@ -11,7 +11,7 @@
     </item>
     <item>
         <rotate
-            android:drawable="@mipmap/spinner_small_outer"
+            android:drawable="@drawable/spinner_small_outer"
             android:fromDegrees="720"
             android:pivotX="50%"
             android:pivotY="50%"

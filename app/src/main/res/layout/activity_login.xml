@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="标题"
-                android:src="@mipmap/loginguide" />
+                android:src="@drawable/loginguide" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/et_name_design"
@@ -64,7 +64,7 @@
                 android:layout_marginEnd="@dimen/login_btn_marginright"
                 android:layout_marginStart="@dimen/login_btn_marginleft"
                 android:layout_marginTop="@dimen/login_login_margintop"
-                android:background="@mipmap/login_btn"
+                android:background="@drawable/login_btn"
                 android:text="@string/activity_login_et_btn_login"
                 android:textColor="@color/login_texthint"
                 android:textSize="@dimen/login_edit_hint" />

@@ -10,4 +10,11 @@
 
     <color name="bottom_all_bg_color_normal">#8c9092</color>
     <color name="menu_item_white_pressed">#f3f3f3</color>
+
+    <!--Bottom-->
+    <color name="color_bottom_layout_bg">#F2F2F2</color>
+    <color name="bottom_text_color">#666666</color>
+
+    <!--MainActivity-->
+    <color name="gray_bg">#efe7e3</color>
 </resources>
