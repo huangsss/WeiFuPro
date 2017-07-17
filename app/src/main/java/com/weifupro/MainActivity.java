@@ -57,6 +57,7 @@ public class MainActivity extends BaseFragmentActivity {
         setContentView(R.layout.activity_main);
         bindViews();
         initView();
+        Log.d("print", "onCreate: 主页");
     }
 
     /**
