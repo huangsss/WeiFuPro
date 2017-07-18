@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/root_layout"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
 
     <include
         android:id="@+id/title_up_layout"
-        layout="@layout/title_bar_activity" />
+        layout="@layout/title_bar_activity"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/ViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </android.support.v4.view.ViewPager>
 
 
     <RadioGroup
@@ -17,48 +25,38 @@
         android:layout_gravity="center"
         android:orientation="horizontal"
         android:background="@color/color_bottom_layout_bg"
-        android:paddingBottom="@dimen/main_menu_padding"
-        android:layout_alignParentBottom="true">
+        android:paddingBottom="@dimen/main_menu_padding">
 
         <RadioButton
             android:id="@+id/main_rb1"
-            style="@style/menu_radioButtonStyle"
+            style="@style/menu_radioButtonStyle_2"
             android:drawableTop="@drawable/menu_home_selector"
             android:text="@string/activity_main_menu_home" />
 
         <RadioButton
             android:id="@+id/main_rb2"
-            style="@style/menu_radioButtonStyle"
+            style="@style/menu_radioButtonStyle_2"
             android:drawableTop="@drawable/menu_shop_selector"
             android:text="@string/activity_main_menu_shop" />
 
         <RadioButton
             android:id="@+id/main_rb3"
-            style="@style/menu_radioButtonStyle"
+            style="@style/menu_radioButtonStyle_2"
             android:drawableTop="@drawable/menu_visit_selector"
             android:text="@string/activity_main_menu_visit" />
 
         <RadioButton
             android:id="@+id/main_rb4"
-            style="@style/menu_radioButtonStyle"
+            style="@style/menu_radioButtonStyle_2"
             android:drawableTop="@drawable/menu_train_selector"
             android:text="@string/activity_main_menu_train" />
 
         <RadioButton
             android:id="@+id/main_rb5"
-            style="@style/menu_radioButtonStyle"
+            style="@style/menu_radioButtonStyle_2"
             android:drawableTop="@drawable/menu_me_selector"
             android:text="@string/activity_main_menu_me" />
 
     </RadioGroup>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/main_viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/main_rg"
-        android:layout_below="@+id/title_up_layout"
-        >
-    </android.support.v4.view.ViewPager>
-
-</RelativeLayout>
+</LinearLayout>

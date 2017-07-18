@@ -13,12 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.weifupro.activity.BaseFragmentActivity;
-import com.weifupro.fragment.HomeFragment;
-import com.weifupro.fragment.MeFragment;
-import com.weifupro.fragment.ShopFragment;
-import com.weifupro.fragment.TrainFragment;
-import com.weifupro.fragment.VisitFragment;
-import com.weifupro.utils.SharePreUtil;
+import com.weifupro.Fragment_2.HomeFragment;
+import com.weifupro.Fragment_2.MeFragment;
+import com.weifupro.Fragment_2.ShopFragment;
+import com.weifupro.Fragment_2.TrainFragment;
+import com.weifupro.Fragment_2.VisitFragment;
 
 import static com.weifupro.R.id.title_bar_change;
 import static com.weifupro.R.id.title_bar_more;
@@ -57,6 +56,7 @@ public class MainActivity extends BaseFragmentActivity {
         setContentView(R.layout.activity_main);
         bindViews();
         initView();
+
         Log.d("print", "onCreate: 主页");
     }
 
@@ -71,62 +71,31 @@ public class MainActivity extends BaseFragmentActivity {
         mMeFragment = new MeFragment();
         mMainFragmentAdapter = new MainFragmentAdapter(getSupportFragmentManager());
         mMain_viewPager.setAdapter(mMainFragmentAdapter);
-//        mMain_viewPager.setCurrentItem(TAB_HOME);
+
         mMain_rg.getChildAt(0).performClick();
     }
+
     @Override
-    protected void onPause() {
-        userid = SharePreUtil.GetShareString(mContext, "userid");
-        if (userid == null) {
-            Toast.makeText(mContext, R.string.please_login, Toast.LENGTH_SHORT).show();
-        } else {
-            isLoad = true;//登陆成功
-        }
-        super.onPause();
+    protected void onResume() {
+        //判断是否已经登录;
+
+        super.onResume();
     }
 
     private void bindViews() {
 
         mMain_rg = (RadioGroup) findViewById(R.id.main_rg);
         mMain_viewPager = (ViewPager) findViewById(R.id.main_viewpager);
-
         mTitle_bar_back = (TextView) findViewById(R.id.title_bar_back);
         mTitle_bar_name = (TextView) findViewById(R.id.title_bar_name);
         mTitle_bar_more = (ImageView) findViewById(title_bar_more);
         mTitle_bar_save = (ImageView) findViewById(R.id.title_bar_save);
         mTitle_bar_change = (ImageView) findViewById(title_bar_change);
-        mMain_viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
 
-            @Override
-            public void onPageSelected(int position) {
-                Log.i("main_viewpager", "position--" + position);
-                switch (position) {
-                    case TAB_HOME:
-                        //主页
-                        jumpHome();
-                    case TAB_SHOP:
-                        jumpShop();
-                    case TAB_TRAIN:
-                        jumpTrain();
-                    case TAB_VISIT:
-                        jumpVisit();
-                    case TAB_ME:
-                        jumpMe();
-                }
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
     private void jumpMe() {
-        IsTab = 5;
         mTitle_bar_more.setVisibility(View.GONE);
         mTitle_bar_change.setVisibility(View.GONE);
         mMain_viewPager.setCurrentItem(TAB_ME, false);
@@ -134,7 +103,6 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     private void jumpVisit() {
-        IsTab = 4;
         mTitle_bar_more.setVisibility(View.VISIBLE);
         mTitle_bar_change.setVisibility(View.GONE);
         mMain_viewPager.setCurrentItem(TAB_VISIT, false);
@@ -142,7 +110,6 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     private void jumpTrain() {
-        IsTab = 3;
         mTitle_bar_more.setVisibility(View.GONE);
         mTitle_bar_change.setVisibility(View.GONE);
         mMain_viewPager.setCurrentItem(TAB_TRAIN, false);
@@ -150,7 +117,6 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     private void jumpShop() {
-        IsTab = 2;
         mTitle_bar_more.setVisibility(View.VISIBLE);
         mTitle_bar_change.setVisibility(View.VISIBLE);
         mMain_viewPager.setCurrentItem(TAB_SHOP, false);
@@ -158,7 +124,6 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     private void jumpHome() {
-        IsTab = 1;
         mTitle_bar_more.setVisibility(View.GONE);
         mTitle_bar_change.setVisibility(View.GONE);
         mMain_viewPager.setCurrentItem(TAB_HOME, false);// false 去除ViewPager的滑动效果
@@ -176,22 +141,22 @@ public class MainActivity extends BaseFragmentActivity {
         }*/
         switch (view.getId()) {
             case R.id.main_rb1:
-                jumpHome();
+                Toast.makeText(mActivity, "首页", Toast.LENGTH_SHORT).show();
                 return;
             case R.id.main_rb2:
-                jumpShop();
+                Toast.makeText(mActivity, "巡店", Toast.LENGTH_SHORT).show();
                 return;
             case R.id.main_rb3:
-                jumpVisit();
+                Toast.makeText(mActivity, "拜访", Toast.LENGTH_SHORT).show();
                 return;
             case R.id.main_rb4:
-                jumpTrain();
+                Toast.makeText(mActivity, "培训", Toast.LENGTH_SHORT).show();
                 return;
             case R.id.main_rb5:
-                jumpMe();
+                Toast.makeText(mActivity, "我的", Toast.LENGTH_SHORT).show();
                 return;
             case R.id.title_bar_more:
-                if (isLoad) {
+               /* if (isLoad) {
                     if (IsTab == 2) {//新建巡店
                         Toast.makeText(mActivity, "新建巡店敬请期待", Toast.LENGTH_SHORT).show();
                     } else if (IsTab == 3) {//新建拜访
@@ -199,19 +164,18 @@ public class MainActivity extends BaseFragmentActivity {
                     } else {
                         Toast.makeText(mContext, R.string.please_login, Toast.LENGTH_SHORT).show();
                     }
-                }
+                }*/
         }
     }
 
     private class MainFragmentAdapter extends FragmentPagerAdapter {
         private final int TAB_COUNT = 5;
-
         public MainFragmentAdapter(FragmentManager fm) {
             super(fm);
         }
-
         @Override
         public Fragment getItem(int position) {
+            Log.d("print", "getItem: Fragment适配器里面position---"+position);
             switch (position) {
                 case TAB_HOME:
                     return mHomeFragment;
@@ -227,7 +191,6 @@ public class MainActivity extends BaseFragmentActivity {
                     return null;
             }
         }
-
         @Override
         public int getCount() {
             return TAB_COUNT;
