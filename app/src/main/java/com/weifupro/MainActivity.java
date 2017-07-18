@@ -1,6 +1,8 @@
 package com.weifupro;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -8,192 +10,186 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.weifupro.activity.BaseFragmentActivity;
-import com.weifupro.Fragment_2.HomeFragment;
-import com.weifupro.Fragment_2.MeFragment;
-import com.weifupro.Fragment_2.ShopFragment;
-import com.weifupro.Fragment_2.TrainFragment;
-import com.weifupro.Fragment_2.VisitFragment;
+import com.weifupro.fragment.HomeFragment;
+import com.weifupro.fragment.MeFragment;
+import com.weifupro.fragment.ShopFragment;
+import com.weifupro.fragment.TrainFragment;
+import com.weifupro.fragment.VisitFragment;
+import com.weifupro.utils.SharePreUtil;
 
-import static com.weifupro.R.id.title_bar_change;
-import static com.weifupro.R.id.title_bar_more;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by "huangsays"  on 2017/7/18.16:10"huangays@gmail.com"
+ * Base的沉浸式还有问题需要处理；
+ */
 
 public class MainActivity extends BaseFragmentActivity {
 
-    private String userid;//用户id
-    private Boolean isLoad;//是否登录
-
+    private ViewPager mViewPager;
     private RadioGroup mMain_rg;
-    private ViewPager mMain_viewPager;
+    private RadioButton mMain_rb1;
+    private RadioButton mMain_rb2;
+    private RadioButton mMain_rb3;
+    private RadioButton mMain_rb4;
+    private RadioButton mMain_rb5;
 
-    private TextView mTitle_bar_back;
-    private TextView mTitle_bar_name;
     private ImageView mTitle_bar_more;
     private ImageView mTitle_bar_save;
     private ImageView mTitle_bar_change;
 
-    private HomeFragment mHomeFragment;
-    private ShopFragment mShopFragment;
-    private VisitFragment mVisitFragment;
-    private TrainFragment mTrainFragment;
-    private MeFragment mMeFragment;
-    private MainFragmentAdapter mMainFragmentAdapter;
+    private ViewPagerAdapter mViewPagerAdapter;
+    private List<Fragment> fragmentList;
 
-    private final int TAB_HOME = 0;
-    private final int TAB_SHOP = 1;
-    private final int TAB_VISIT = 2;
-    private final int TAB_TRAIN = 3;
-    private final int TAB_ME = 4;
-    private int IsTab;
+    private String userId;
+    private boolean isLogin;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bindViews();
-        initView();
 
-        Log.d("print", "onCreate: 主页");
-    }
-
-    /**
-     * 初始化界面
-     */
-    private void initView() {
-        mHomeFragment = new HomeFragment();
-        mShopFragment = new ShopFragment();
-        mVisitFragment = new VisitFragment();
-        mTrainFragment = new TrainFragment();
-        mMeFragment = new MeFragment();
-        mMainFragmentAdapter = new MainFragmentAdapter(getSupportFragmentManager());
-        mMain_viewPager.setAdapter(mMainFragmentAdapter);
-
-        mMain_rg.getChildAt(0).performClick();
+        bindViews();//绑定id;
+        initView();//初始化;
+        setListener();//监听事件;
     }
 
     @Override
     protected void onResume() {
-        //判断是否已经登录;
-
         super.onResume();
+        userId = SharePreUtil.GetShareString(mActivity,"userid");
+        if ("".equals(userId)){
+            isLogin = true;
+        }
     }
 
     private void bindViews() {
-
+        mViewPager = (ViewPager) findViewById(R.id.ViewPager);
         mMain_rg = (RadioGroup) findViewById(R.id.main_rg);
-        mMain_viewPager = (ViewPager) findViewById(R.id.main_viewpager);
-        mTitle_bar_back = (TextView) findViewById(R.id.title_bar_back);
-        mTitle_bar_name = (TextView) findViewById(R.id.title_bar_name);
-        mTitle_bar_more = (ImageView) findViewById(title_bar_more);
+        mMain_rb1 = (RadioButton) findViewById(R.id.main_rb1);
+        mMain_rb2 = (RadioButton) findViewById(R.id.main_rb2);
+        mMain_rb3 = (RadioButton) findViewById(R.id.main_rb3);
+        mMain_rb4 = (RadioButton) findViewById(R.id.main_rb4);
+        mMain_rb5 = (RadioButton) findViewById(R.id.main_rb5);
+        mTitle_bar_more = (ImageView) findViewById(R.id.title_bar_more);
         mTitle_bar_save = (ImageView) findViewById(R.id.title_bar_save);
-        mTitle_bar_change = (ImageView) findViewById(title_bar_change);
-
-
+        mTitle_bar_change = (ImageView) findViewById(R.id.title_bar_change);
     }
 
-    private void jumpMe() {
-        mTitle_bar_more.setVisibility(View.GONE);
-        mTitle_bar_change.setVisibility(View.GONE);
-        mMain_viewPager.setCurrentItem(TAB_ME, false);
-        setTitleName("个人中心");
+    private void initView() {
+        fragmentList = new ArrayList<>();
+        fragmentList.add(new HomeFragment());
+        fragmentList.add(new ShopFragment());
+        fragmentList.add(new VisitFragment());
+        fragmentList.add(new TrainFragment());
+        fragmentList.add(new MeFragment());
+        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);
+        mViewPager.setAdapter(mViewPagerAdapter);
+        mViewPager.setOffscreenPageLimit(3);//一次性加载3个Fragment;
+        mMain_rg.getChildAt(0).performClick();//默认点击主页;
     }
 
-    private void jumpVisit() {
-        mTitle_bar_more.setVisibility(View.VISIBLE);
-        mTitle_bar_change.setVisibility(View.GONE);
-        mMain_viewPager.setCurrentItem(TAB_VISIT, false);
-        setTitleName("拜访");
-    }
+    private void setListener() {
+        /**
+         *RadioButton的事件监听;
+         */
+        mMain_rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId){
+                    case R.id.main_rb1:
+                        mTitle_bar_more.setVisibility(View.GONE);
+                        mTitle_bar_change.setVisibility(View.GONE);
+                        mViewPager.setCurrentItem(0,false);// false 去除ViewPager的滑动效果
+                        setTitleName("首页");
+                        break;
+                    case R.id.main_rb2:
+                        mTitle_bar_more.setVisibility(View.VISIBLE);
+                        mTitle_bar_change.setVisibility(View.VISIBLE);
+                        mViewPager.setCurrentItem(1,false);
+                        setTitleName("巡店");
+                        break;
+                    case R.id.main_rb3:
+                        mTitle_bar_more.setVisibility(View.VISIBLE);
+                        mTitle_bar_change.setVisibility(View.GONE);
+                        mViewPager.setCurrentItem(2,false);
+                        setTitleName("拜访");
+                        break;
+                    case R.id.main_rb4:
+                        mTitle_bar_more.setVisibility(View.GONE);
+                        mTitle_bar_change.setVisibility(View.GONE);
+                        mViewPager.setCurrentItem(3,false);
+                        setTitleName("培训");
+                        break;
+                    case R.id.main_rb5:
+                        mTitle_bar_more.setVisibility(View.GONE);
+                        mTitle_bar_change.setVisibility(View.GONE);
+                        mViewPager.setCurrentItem(4,false);
+                        setTitleName("个人中心");
+                        break;
+                }
+            }
+        });
+        /**
+         * ViewPager的事件监听;
+         */
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-    private void jumpTrain() {
-        mTitle_bar_more.setVisibility(View.GONE);
-        mTitle_bar_change.setVisibility(View.GONE);
-        mMain_viewPager.setCurrentItem(TAB_TRAIN, false);
-        setTitleName("培训");
-    }
-
-    private void jumpShop() {
-        mTitle_bar_more.setVisibility(View.VISIBLE);
-        mTitle_bar_change.setVisibility(View.VISIBLE);
-        mMain_viewPager.setCurrentItem(TAB_SHOP, false);
-        setTitleName("寻店");
-    }
-
-    private void jumpHome() {
-        mTitle_bar_more.setVisibility(View.GONE);
-        mTitle_bar_change.setVisibility(View.GONE);
-        mMain_viewPager.setCurrentItem(TAB_HOME, false);// false 去除ViewPager的滑动效果
-        setTitleName("首页");
+            }
+            @Override
+            public void onPageSelected(int position) {
+                Log.d("print", "onPageSelected: 滑动的时候滑动的下标为"+position);
+                switch (position){
+                    case 0:
+                        mMain_rb1.setChecked(true);
+                        Log.d("print", "onPageSelected: ViewPager的滑动");
+                        break;
+                    case 1:
+                        mMain_rb2.setChecked(true);
+                        break;
+                    case 2:
+                        mMain_rb3.setChecked(true);
+                        break;
+                    case 3:
+                        mMain_rb4.setChecked(true);
+                        break;
+                    case 4:
+                        mMain_rb5.setChecked(true);
+                        break;
+                }
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     /**
-     * 底部按钮监听;
-     *
-     * @param view
+     * ViewPager的适配器
      */
-    public void btnOnclick(View view) {
-        /*if (!isLoad) {
-            Toast.makeText(mContext, R.string.please_login, Toast.LENGTH_SHORT).show();
-        }*/
-        switch (view.getId()) {
-            case R.id.main_rb1:
-                Toast.makeText(mActivity, "首页", Toast.LENGTH_SHORT).show();
-                return;
-            case R.id.main_rb2:
-                Toast.makeText(mActivity, "巡店", Toast.LENGTH_SHORT).show();
-                return;
-            case R.id.main_rb3:
-                Toast.makeText(mActivity, "拜访", Toast.LENGTH_SHORT).show();
-                return;
-            case R.id.main_rb4:
-                Toast.makeText(mActivity, "培训", Toast.LENGTH_SHORT).show();
-                return;
-            case R.id.main_rb5:
-                Toast.makeText(mActivity, "我的", Toast.LENGTH_SHORT).show();
-                return;
-            case R.id.title_bar_more:
-               /* if (isLoad) {
-                    if (IsTab == 2) {//新建巡店
-                        Toast.makeText(mActivity, "新建巡店敬请期待", Toast.LENGTH_SHORT).show();
-                    } else if (IsTab == 3) {//新建拜访
-                        Toast.makeText(mActivity, "新建拜访暂未开放", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(mContext, R.string.please_login, Toast.LENGTH_SHORT).show();
-                    }
-                }*/
+    private class ViewPagerAdapter extends FragmentPagerAdapter{
+        private List<Fragment> fragmentList;
+        public ViewPagerAdapter(FragmentManager fm,List<Fragment> fragmentList) {
+            super(fm);
+            this.fragmentList = fragmentList;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
         }
     }
 
-    private class MainFragmentAdapter extends FragmentPagerAdapter {
-        private final int TAB_COUNT = 5;
-        public MainFragmentAdapter(FragmentManager fm) {
-            super(fm);
-        }
-        @Override
-        public Fragment getItem(int position) {
-            Log.d("print", "getItem: Fragment适配器里面position---"+position);
-            switch (position) {
-                case TAB_HOME:
-                    return mHomeFragment;
-                case TAB_SHOP:
-                    return mShopFragment;
-                case TAB_VISIT:
-                    return mVisitFragment;
-                case TAB_TRAIN:
-                    return mTrainFragment;
-                case TAB_ME:
-                    return mMeFragment;
-                default:
-                    return null;
-            }
-        }
-        @Override
-        public int getCount() {
-            return TAB_COUNT;
-        }
-    }
 }
