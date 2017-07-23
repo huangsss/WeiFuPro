@@ -26,4 +26,16 @@
     <dimen name="bottom_img_padding">6dip</dimen>
     <dimen name="bottom_img_left">24dp</dimen>
     <dimen name="bottom_text_size">11sp</dimen>
+
+    <!--MainActivity-->
+    <dimen name="home_fragment_item_info_padding">6dp</dimen>
+    <!--HomeFragment-->
+    <dimen name="home_fragment_viewpager_h">166dp</dimen>
+    <dimen name="home_fragment_point_bottom">12dp</dimen>
+    <dimen name="home_fragment_item_padding">20dip</dimen>
+    <dimen name="home_fragment_title_padding">10dp</dimen>
+    <dimen name="home_fragment_item_size">12sp</dimen>
+    <dimen name="home_fragment_title_left">23dp</dimen>
+    <dimen name="home_fragment_info_item_size">14sp</dimen>
+
 </resources>

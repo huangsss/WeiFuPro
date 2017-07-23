@@ -1,6 +1,7 @@
 package com.weifupro.utils;
 
 import com.google.gson.Gson;
+import com.weifupro.bean.AnnImageResult;
 import com.weifupro.bean.LoginBeanResult;
 
 /**
@@ -20,4 +21,12 @@ public class GetJsonDatas {
     return gson.fromJson(json,LoginBeanResult.class);
 }
 
+    /**
+     *
+     * @param json HomeFragment的顶部Banner信息;
+     */
+    public static AnnImageResult getAnnInfoData(String json){
+        Gson gson = new Gson();
+        return gson.fromJson(json,AnnImageResult.class);
+    }
 }

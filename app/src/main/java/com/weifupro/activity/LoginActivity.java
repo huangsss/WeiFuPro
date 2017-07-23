@@ -23,7 +23,6 @@ import com.weifupro.bean.User;
 import com.weifupro.net.OkHttpManager;
 import com.weifupro.utils.GetJsonDatas;
 import com.weifupro.utils.SharePreUtil;
-import com.weifupro.utils.StatusbarUtils;
 
 import org.litepal.crud.DataSupport;
 import org.litepal.tablemanager.Connector;
@@ -61,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         } else {
-            StatusbarUtils.enableTranslucentStatusbar(this);//状态栏透明化
+//            StatusbarUtils.enableTranslucentStatusbar(this);//状态栏透明化
             bindViews();//
             initListener();//事件监听
         }
@@ -139,7 +138,6 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void login() {
         if (checkData()) {
-            Log.d("print", "login: 数据正确、可以进行登录");
             // 数据正确、可以进行登录
             mReLoading.setVisibility(View.VISIBLE);//显示登陆加载界面;
             //Post发送登陆请求;

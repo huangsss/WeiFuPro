@@ -6,7 +6,7 @@ public class Constant {
     public static final int HttpFail = 7001;//失败
 
 
-    public static final String BaseUrl = "http://127.0.0.1:8080";//模拟器根接口 C:\Windows\System32\drivers\etc查看hosts文件;
+    public static final String BaseUrl = "http://192.168.1.125:8080";//模拟器根接口 C:\Windows\System32\drivers\etc查看hosts文件;
 //    public static final String BaseUrl = "http://192.168.9.232:8080";//根接口
 
     public static final String Login = BaseUrl + "/visitshop/login";//登录get
