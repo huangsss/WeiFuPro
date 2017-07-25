@@ -10,6 +10,7 @@ import java.util.List;
 
 public class AnnImageResult extends DataSupport {
 
+
     /**
      * code : 0
      * msg : 获取公告成功
@@ -18,12 +19,7 @@ public class AnnImageResult extends DataSupport {
 
     private int code;
     private String msg;
-    /**
-     * id : 4
-     * imgUrl : /visitshop//img/ann/ann1.jpg
-     */
-
-    private List<AnnImages> body;
+    private List<BodyBean> body;
 
     public int getCode() {
         return code;
@@ -41,15 +37,20 @@ public class AnnImageResult extends DataSupport {
         this.msg = msg;
     }
 
-    public List<AnnImages> getBody() {
+    public List<BodyBean> getBody() {
         return body;
     }
 
-    public void setBody(List<AnnImages> body) {
+    public void setBody(List<BodyBean> body) {
         this.body = body;
     }
 
-    public static class BodyBean {
+    public static class BodyBean extends DataSupport {
+        /**
+         * id : 4
+         * imgUrl : /visitshop//img/ann/ann1.jpg
+         */
+
         private int id;
         private String imgUrl;
 

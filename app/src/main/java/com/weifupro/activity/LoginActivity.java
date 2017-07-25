@@ -23,6 +23,7 @@ import com.weifupro.bean.User;
 import com.weifupro.net.OkHttpManager;
 import com.weifupro.utils.GetJsonDatas;
 import com.weifupro.utils.SharePreUtil;
+import com.weifupro.utils.StatusbarUtils;
 
 import org.litepal.crud.DataSupport;
 import org.litepal.tablemanager.Connector;
@@ -60,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         } else {
-//            StatusbarUtils.enableTranslucentStatusbar(this);//状态栏透明化
+            StatusbarUtils.enableTranslucentStatusbar(this);//状态栏透明化
             bindViews();//
             initListener();//事件监听
         }

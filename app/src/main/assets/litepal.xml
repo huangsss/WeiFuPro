@@ -5,7 +5,7 @@
     <version value="1"></version>
     <list>
         <mapping class="com.weifupro.bean.User"></mapping>
-        <mapping class="com.weifupro.bean.AnnImages"></mapping>
-
+        <mapping class="com.weifupro.bean.AnnImageResult.BodyBean"></mapping>
+        <mapping class="com.weifupro.bean.AnnImageResult"></mapping>
     </list>
 </litepal>
