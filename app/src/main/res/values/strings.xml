@@ -17,7 +17,19 @@
     <string name="txt_train">培训</string>
     <string name="txt_me">个人中心</string>
 
+
+    <!--home fragment-->
+    <string name="fragment_home_info">最新资讯</string>
+    <string name="fragment_home_task">最新任务</string>
+    <string name="fragment_home_more">更多</string>
+    <!--toast语句-->
+    <string name="search_none">没有搜到相关信息</string>
+    <string name="please_resubmit">网络不给力，请重新提交</string>
     <string name="please_login">你尚未登录,请先登录</string>
-
-
+    <string name="http_failed_click_refresh">联网失败\n点击刷新</string>
+    <string name="http_failed_refresh">网络请求失败，点击刷新</string>
+    <string name="please_into_userinfo">请输入店名</string>
+    <string name="http_failed">网络请求失败，请检查网络</string>
+    <string name="image_no_exist">图片已不存在</string>
+    <string name="photo_help_text">&#160;&#160;&#160;&#160;注意：拍照不得少于2张，为培训开始一张和培训结束一张。第一张和最后一张时间间隔不得少于1分钟</string>
 </resources>

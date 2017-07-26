@@ -1,36 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/home_fragment_viewpager_h">
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/fragment_img_viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true">
-
-        </android.support.v4.view.ViewPager>
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/fragment_point_subscript"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/home_fragment_point_bottom"
-            android:orientation="horizontal"/>
-    </RelativeLayout>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/rl_http_failed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@color/bg_fragment_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/title_bar_add_bottom"
+                android:visibility="gone">
 
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:text="主页"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/http_failed_refresh"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/home_fragment_info_item_size" />
+            </LinearLayout>
 
-</LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/home_fragment_viewpager_h">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/fragment_img_viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true">
+
+                </android.support.v4.view.ViewPager>
+
+                <LinearLayout
+                    android:id="@+id/fragment_point_subscript"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/home_fragment_point_bottom"
+                    android:orientation="horizontal" />
+            </RelativeLayout>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:background="@color/white">
+
+                <RadioButton
+                    android:id="@+id/fragment_sort_shop"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/home_shop"
+                    android:gravity="center"
+                    android:padding="@dimen/home_fragment_item_padding"
+                    android:drawablePadding="@dimen/home_fragment_item_padding"
+                    android:text="新建巡店"
+                    android:textColor="@color/bottom_text_color"
+                    android:textSize="@dimen/home_fragment_item_size" />
+
+                <RadioButton
+                    android:id="@+id/fragment_sort_visit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawablePadding="@dimen/home_fragment_item_padding"
+                    android:drawableTop="@drawable/home_visit"
+                    android:gravity="center"
+                    android:padding="@dimen/home_fragment_item_padding"
+                    android:text="新建拜访"
+                    android:textColor="@color/bottom_text_color"
+                    android:textSize="@dimen/home_fragment_item_size" />
+
+                <RadioButton
+                    android:id="@+id/fragment_sort_train"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/home_train"
+                    android:gravity="center"
+                    android:padding="@dimen/home_fragment_item_padding"
+                    android:drawablePadding="@dimen/home_fragment_item_padding"
+                    android:text="培训查看"
+                    android:textColor="@color/bottom_text_color"
+                    android:textSize="@dimen/home_fragment_item_size" />
+            </RadioGroup>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#d1c9c7"
+                />
+
+            <RelativeLayout
+                android:id="@+id/home_fragment_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_bottom_layout_bg"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fragment_home_task"
+                    android:textColor="@color/home_title_text_color"
+                    android:textSize="@dimen/home_fragment_item_size"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/home_fragment_title_left"
+                    android:paddingBottom="@dimen/home_fragment_title_padding"
+                    android:paddingTop="@dimen/home_fragment_title_padding"/>
+                <TextView
+                    android:id="@+id/fragment_home_task_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/home_fragment_title_left"
+                    android:paddingBottom="@dimen/home_fragment_title_padding"
+                    android:paddingTop="@dimen/home_fragment_title_padding"
+                    android:text="@string/fragment_home_more"
+                    android:textColor="@color/home_title_text_color"
+                    android:textSize="@dimen/home_fragment_item_size"
+                    />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#d1c9c7"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fragment_home_task_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/home_fragment_title_left"
+                android:paddingRight="@dimen/home_fragment_title_left">
+
+            </android.support.v7.widget.RecyclerView>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_bottom_layout_bg"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/home_fragment_title_left"
+                    android:paddingBottom="@dimen/home_fragment_title_padding"
+                    android:paddingTop="@dimen/home_fragment_title_padding"
+                    android:text="@string/fragment_home_info"
+                    android:textColor="@color/home_title_text_color"
+                    android:textSize="@dimen/home_fragment_item_size"/>
+
+                <TextView
+                    android:id="@+id/fragment_home_info_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/home_fragment_title_left"
+                    android:paddingBottom="@dimen/home_fragment_title_padding"
+                    android:paddingTop="@dimen/home_fragment_title_padding"
+                    android:text="@string/fragment_home_more"
+                    android:textColor="@color/home_title_text_color"
+                    android:textSize="@dimen/home_fragment_item_size"
+                    />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#d1c9c7"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/home_fragment_task_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/home_fragment_title_left"
+                android:paddingRight="@dimen/home_fragment_title_left"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#d1c9c7"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

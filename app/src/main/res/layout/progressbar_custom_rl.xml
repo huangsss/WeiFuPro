@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rl_progressbar"
-    android:visibility="visible">
+    android:id="@+id/rl_progressbar">
+
     <RelativeLayout
         android:layout_width="110dp"
         android:layout_height="110dp"

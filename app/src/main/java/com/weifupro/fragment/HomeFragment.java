@@ -4,11 +4,17 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.weifupro.R;
@@ -16,6 +22,7 @@ import com.weifupro.bean.AnnImageResult;
 import com.weifupro.net.OkHttpManager;
 import com.weifupro.utils.Constant;
 import com.weifupro.utils.GetJsonDatas;
+import com.weifupro.utils.SharePreUtil;
 
 import org.litepal.crud.DataSupport;
 
@@ -41,6 +48,17 @@ public class HomeFragment extends BaseFragment {
     private Timer mTimer;//计时器
     private HMViewpage hmViewpageAdapter;
 
+    private LinearLayout mRl_http_failed;
+    private RadioButton mFragment_sort_shop;
+    private RadioButton mFragment_sort_visit;
+    private RadioButton mFragment_sort_train;
+    private RelativeLayout mHome_fragment_task;
+    private TextView mFragment_home_task_more;
+    private RecyclerView mFragment_home_task_list;
+    private TextView mFragment_home_info_more;
+    private RecyclerView mHome_fragment_task_list;
+    private String userId;
+    private boolean isLogin;
     @Override
     public int getContentId() {
         return R.layout.fragment_home;
@@ -50,15 +68,33 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void init(View view) {
         super.init(view);
-        mHomeFragmentviewPager = (ViewPager) view.findViewById(R.id.fragment_img_viewpager);
-        mLinearLayout = (LinearLayout) view.findViewById(R.id.fragment_point_subscript);
+        userId = SharePreUtil.GetShareString(getActivity(),"userid");
+        if (TextUtils.isEmpty(userId)){
+            isLogin = false;
+            Toast.makeText(getActivity(), R.string.please_login, Toast.LENGTH_SHORT).show();
+        }else{
+            isLogin = true;
+
+        }
         if (views == null){
             views = new ArrayList<View>();
         }
+        mHomeFragmentviewPager = (ViewPager) view.findViewById(R.id.fragment_img_viewpager);
+        mLinearLayout = (LinearLayout) view.findViewById(R.id.fragment_point_subscript);
         hmViewpageAdapter = new HMViewpage();
         mHomeFragmentviewPager.setAdapter(hmViewpageAdapter);//轮播图的适配器;
         //添加界面滚动监听
         mHomeFragmentviewPager.addOnPageChangeListener(hmViewpageAdapter);
+        mRl_http_failed = (LinearLayout) view.findViewById(R.id.rl_http_failed);
+        mFragment_sort_shop = (RadioButton) view.findViewById(R.id.fragment_sort_shop);
+        mFragment_sort_visit = (RadioButton) view.findViewById(R.id.fragment_sort_visit);
+        mFragment_sort_train = (RadioButton) view.findViewById(R.id.fragment_sort_train);
+        mHome_fragment_task = (RelativeLayout) view.findViewById(R.id.home_fragment_task);
+        mFragment_home_task_more = (TextView) view.findViewById(R.id.fragment_home_task_more);
+        mFragment_home_task_list = (RecyclerView) view.findViewById(R.id.fragment_home_task_list);
+        mFragment_home_info_more = (TextView) view.findViewById(R.id.fragment_home_info_more);
+        mHome_fragment_task_list = (RecyclerView) view.findViewById(R.id.home_fragment_task_list);
+
     }
 
     /**
@@ -101,6 +137,7 @@ public class HomeFragment extends BaseFragment {
                 }
             }
         });
+
     }
     /**
      * 根据公告图片地址动态更新界面
@@ -178,6 +215,9 @@ public class HomeFragment extends BaseFragment {
         }
     };
 
+    /**
+     * ViewPager的适配器;
+     */
     private class HMViewpage extends PagerAdapter implements ViewPager.OnPageChangeListener {
 
         @Override
@@ -226,4 +266,7 @@ public class HomeFragment extends BaseFragment {
 
         }
     }
+
+
 }
+
