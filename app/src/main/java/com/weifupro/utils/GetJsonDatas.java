@@ -2,6 +2,7 @@ package com.weifupro.utils;
 
 import com.google.gson.Gson;
 import com.weifupro.bean.AnnImageResult;
+import com.weifupro.bean.Infomation;
 import com.weifupro.bean.LoginBeanResult;
 
 /**
@@ -10,14 +11,14 @@ import com.weifupro.bean.LoginBeanResult;
  */
 
 public class GetJsonDatas {
-
+    private static Gson gson = new Gson();
     /**
      *
      * @param json  登录信息
      * @return 解析登录信息
      */
     public static LoginBeanResult getLoginInfoData(String json){
-    Gson gson = new Gson();
+
     return gson.fromJson(json,LoginBeanResult.class);
 }
 
@@ -26,7 +27,15 @@ public class GetJsonDatas {
      * @param json HomeFragment的顶部Banner信息;
      */
     public static AnnImageResult getAnnInfoData(String json){
-        Gson gson = new Gson();
         return gson.fromJson(json,AnnImageResult.class);
+    }
+
+    /**
+     *
+     * @param json 主页咨询
+     * @return
+     */
+    public static Infomation getInfomation(String json){
+        return  gson.fromJson(json,Infomation.class);
     }
 }

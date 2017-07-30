@@ -19,7 +19,7 @@ public class AnnImageResult extends DataSupport {
 
     private int code;
     private String msg;
-    private List<BodyBean> body;
+    private List<AnnImages> body;
 
     public int getCode() {
         return code;
@@ -37,37 +37,12 @@ public class AnnImageResult extends DataSupport {
         this.msg = msg;
     }
 
-    public List<BodyBean> getBody() {
+    public List<AnnImages> getBody() {
         return body;
     }
 
-    public void setBody(List<BodyBean> body) {
+    public void setBody(List<AnnImages> body) {
         this.body = body;
     }
 
-    public static class BodyBean extends DataSupport {
-        /**
-         * id : 4
-         * imgUrl : /visitshop//img/ann/ann1.jpg
-         */
-
-        private int id;
-        private String imgUrl;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getImgUrl() {
-            return imgUrl;
-        }
-
-        public void setImgUrl(String imgUrl) {
-            this.imgUrl = imgUrl;
-        }
-    }
 }

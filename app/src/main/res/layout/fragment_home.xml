@@ -153,7 +153,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:paddingLeft="@dimen/home_fragment_title_left"
-                android:paddingRight="@dimen/home_fragment_title_left">
+                android:paddingRight="@dimen/home_fragment_title_left"
+                android:visibility="gone">
 
             </android.support.v7.widget.RecyclerView>
             <RelativeLayout
@@ -194,7 +195,7 @@
                 />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/home_fragment_task_list"
+                android:id="@+id/fragment_home_info_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
@@ -210,8 +211,11 @@
                 android:layout_height="1px"
                 android:background="#d1c9c7"
                 />
-
         </LinearLayout>
     </ScrollView>
-
+<include
+    android:id="@+id/home_progress"
+    layout="@layout/progressbar_custom_rl"
+    android:visibility="gone"
+    />
 </RelativeLayout>

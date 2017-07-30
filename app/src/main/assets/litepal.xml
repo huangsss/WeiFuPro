@@ -2,10 +2,11 @@
 <litepal>
     <dbname value="WeiFuPro"></dbname>
 
-    <version value="1"></version>
+    <version value="3"></version>
     <list>
         <mapping class="com.weifupro.bean.User"></mapping>
-        <mapping class="com.weifupro.bean.AnnImageResult.BodyBean"></mapping>
         <mapping class="com.weifupro.bean.AnnImageResult"></mapping>
+        <mapping class="com.weifupro.bean.AnnImages"></mapping>
+        <mapping class="com.weifupro.bean.InfomationBody"></mapping>
     </list>
 </litepal>

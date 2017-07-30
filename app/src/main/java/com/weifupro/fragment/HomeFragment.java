@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,7 +19,11 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.weifupro.R;
+import com.weifupro.adapters.InfomationListAdapter;
 import com.weifupro.bean.AnnImageResult;
+import com.weifupro.bean.AnnImages;
+import com.weifupro.bean.Infomation;
+import com.weifupro.bean.InfomationBody;
 import com.weifupro.net.OkHttpManager;
 import com.weifupro.utils.Constant;
 import com.weifupro.utils.GetJsonDatas;
@@ -43,8 +48,6 @@ public class HomeFragment extends BaseFragment {
     private LinearLayout mLinearLayout;
     private int count = 0;//轮播图当前下标
     private List<View> views;
-    public final int GetImags = 1014;//获取广告图返回码
-    private final int AnnFaild = 1011;//获取广告图失败返回码
     private Timer mTimer;//计时器
     private HMViewpage hmViewpageAdapter;
 
@@ -56,9 +59,12 @@ public class HomeFragment extends BaseFragment {
     private TextView mFragment_home_task_more;
     private RecyclerView mFragment_home_task_list;
     private TextView mFragment_home_info_more;
-    private RecyclerView mHome_fragment_task_list;
+    private RecyclerView mFragment_home_info_list;
+    private RelativeLayout mProgressBar;
     private String userId;
     private boolean isLogin;
+
+    private InfomationListAdapter mInfomationListAdapter;
     @Override
     public int getContentId() {
         return R.layout.fragment_home;
@@ -74,7 +80,6 @@ public class HomeFragment extends BaseFragment {
             Toast.makeText(getActivity(), R.string.please_login, Toast.LENGTH_SHORT).show();
         }else{
             isLogin = true;
-
         }
         if (views == null){
             views = new ArrayList<View>();
@@ -93,12 +98,22 @@ public class HomeFragment extends BaseFragment {
         mFragment_home_task_more = (TextView) view.findViewById(R.id.fragment_home_task_more);
         mFragment_home_task_list = (RecyclerView) view.findViewById(R.id.fragment_home_task_list);
         mFragment_home_info_more = (TextView) view.findViewById(R.id.fragment_home_info_more);
-        mHome_fragment_task_list = (RecyclerView) view.findViewById(R.id.home_fragment_task_list);
-
+        mFragment_home_info_list = (RecyclerView) view.findViewById(R.id.fragment_home_info_list);
+        mProgressBar = (RelativeLayout) view.findViewById(R.id.home_progress);
+        mProgressBar.setVisibility(View.VISIBLE);//设置Loding
+        if (isLogin){
+            //登陆了则显示任务列表
+            mHome_fragment_task.setVisibility(View.VISIBLE);
+            mFragment_home_task_list.setVisibility(View.VISIBLE);
+        }
+        mFragment_home_task_list.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        mFragment_home_info_list.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        mFragment_home_info_list.setNestedScrollingEnabled(false);
     }
 
     /**
      *下载轮播图的数据
+     *
      */
     @Override
     protected void loadDatas() {
@@ -107,12 +122,18 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onFaild(Request request, IOException e) {
                 // 下载失败; 则去数据库里面获取.再更新
-                List<AnnImageResult.BodyBean> img_List = DataSupport.findAll(AnnImageResult.BodyBean.class);
-                if (img_List != null){
-                    updateBanner(img_List);
+                try {
+                    Log.d("print", "onFaild: 去数据库里面获取");
+                    List<AnnImages> img_List = DataSupport.findAll(AnnImages.class);
+                    if (img_List != null){
+                        updateBanner(img_List);
+                    }
+                } catch (Exception e1) {
+                    Log.d("print", "onFaild: 数据库寻找AnnImageResult.BodyBean.class加载失败");
+                    Log.d("print", "onFaild: 失败的理由"+e.getMessage());
+                    e1.printStackTrace();
                 }
             }
-
             @Override
             public void onSuccess(String response) {
                 // 下载成功
@@ -121,31 +142,75 @@ public class HomeFragment extends BaseFragment {
                 AnnImageResult annInfoData = GetJsonDatas.getAnnInfoData(annDatas);
                 Log.d("print", "onSuccess:顶部图片的信息 " +annInfoData.getBody().get(0).getImgUrl());
                 // 顶部ImgList;
-                List<AnnImageResult.BodyBean> img_List = annInfoData.getBody();
+                List<AnnImages> img_List = annInfoData.getBody();
                 if (img_List == null){
-                    img_List = new ArrayList<AnnImageResult.BodyBean>();
+                    img_List = new ArrayList<AnnImages>();
                     Log.d("print", "onSuccess: 图片的URL"+img_List.get(0).getImgUrl());
                 }
                 // 更新轮播图
                 updateBanner(img_List);
                 // 保存到数据库;更新缓存
                 if (img_List.size() > 0){
-                    // 删除数据库缓存
-//                    DataSupport.deleteAll(AnnImageResult.BodyBean.class);
+                   /* try {
+                        // 删除数据库缓存
+                        DataSupport.deleteAll(AnnImages.class);
+                        // 更新新的数据
+                        DataSupport.saveAll(annInfoData.getBody());
+                    } catch (Exception e) {
+                        Log.d("print", "onFaild: 更新数据库失败的理由"+e.getMessage());
+                        e.printStackTrace();
+                    }*/
+                    // 删除数据库缓存----报错原因 每次更新时litepal版本升级一次;
+                    DataSupport.deleteAll(AnnImages.class);
                     // 更新新的数据
-//                    DataSupport.saveAll(annInfoData.getBody());
+                    DataSupport.saveAll(annInfoData.getBody());
                 }
             }
         });
+        //下载最新咨询
+        OkHttpManager.getInstance().getNet(Constant.Info + "?pagenum=" + 1 + "&type=" + 0, new OkHttpManager.ResultCallback() {
+            @Override
+            public void onFaild(Request request, IOException e) {
+                //失败则去数据库获取
 
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                //得到数据---解析---设置适配器
+                mProgressBar.setVisibility(View.GONE);//隐藏Loding条
+                Infomation infomation = GetJsonDatas.getInfomation(response.toString());
+                List<InfomationBody> infomationBody = infomation.getBody();
+                Log.d("print", "onSuccess: 资讯信息----"+infomation.getBody().get(0).getTitle());
+                if (infomationBody != null) {
+                    mInfomationListAdapter = new InfomationListAdapter(getContext(),infomationBody,3);
+                    mFragment_home_info_list.setAdapter(mInfomationListAdapter);
+                    DataSupport.deleteAll(InfomationBody.class);
+                    DataSupport.saveAll(infomationBody);
+                }
+            }
+        });
+        //登陆后下载最新任务
+        if (isLogin){
+            OkHttpManager.getInstance().getNet(Constant.Task + "?pagenum=" + 1, new OkHttpManager.ResultCallback() {
+                @Override
+                public void onFaild(Request request, IOException e) {
+
+                }
+                @Override
+                public void onSuccess(String response) {
+
+                }
+            });
+        }
     }
     /**
      * 根据公告图片地址动态更新界面
      */
-    public void updateBanner(List<AnnImageResult.BodyBean> img_List) {
+    public void updateBanner(List<AnnImages> img_List) {
         Log.d("print", "updateBanner: 更新界面");
         views.clear();//清除List中的view的缓存
-        for (AnnImageResult.BodyBean images : img_List) {
+        for (AnnImages images : img_List) {
             ImageView img = new ImageView(getActivity());
             img.setScaleType(ImageView.ScaleType.CENTER_CROP);
             Picasso.with(getActivity())

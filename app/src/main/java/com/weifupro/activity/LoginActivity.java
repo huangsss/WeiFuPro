@@ -38,6 +38,8 @@ import static com.weifupro.utils.Constant.Login;
 /**
  * 一、登陆界面
  * Created by "huangsays"  on 2017/7/6.19:29"huangays@gmail.com"
+ * 登陆逻辑 ------ 登陆成功将登陆信息放进数据库
+ * ----存取userid进shareUtis;
  */
 
 public class LoginActivity extends AppCompatActivity {
