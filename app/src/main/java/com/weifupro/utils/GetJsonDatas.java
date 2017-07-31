@@ -2,6 +2,7 @@ package com.weifupro.utils;
 
 import com.google.gson.Gson;
 import com.weifupro.bean.AnnImageResult;
+import com.weifupro.bean.HomeTask;
 import com.weifupro.bean.Infomation;
 import com.weifupro.bean.LoginBeanResult;
 
@@ -35,7 +36,16 @@ public class GetJsonDatas {
      * @param json 主页咨询
      * @return
      */
-    public static Infomation getInfomation(String json){
+    public static Infomation getInfomationData(String json){
         return  gson.fromJson(json,Infomation.class);
+    }
+
+    /**
+     *
+     * @param json 主页任务
+     * @return
+     */
+    public static HomeTask getHomeTaskData(String json){
+        return gson.fromJson(json,HomeTask.class);
     }
 }

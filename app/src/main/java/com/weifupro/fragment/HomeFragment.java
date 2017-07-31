@@ -19,9 +19,12 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.weifupro.R;
+import com.weifupro.adapters.HomeTaskListAdapter;
 import com.weifupro.adapters.InfomationListAdapter;
 import com.weifupro.bean.AnnImageResult;
 import com.weifupro.bean.AnnImages;
+import com.weifupro.bean.HomeTask;
+import com.weifupro.bean.HomeTaskBody;
 import com.weifupro.bean.Infomation;
 import com.weifupro.bean.InfomationBody;
 import com.weifupro.net.OkHttpManager;
@@ -52,19 +55,17 @@ public class HomeFragment extends BaseFragment {
     private HMViewpage hmViewpageAdapter;
 
     private LinearLayout mRl_http_failed;
-    private RadioButton mFragment_sort_shop;
-    private RadioButton mFragment_sort_visit;
-    private RadioButton mFragment_sort_train;
-    private RelativeLayout mHome_fragment_task;
-    private TextView mFragment_home_task_more;
-    private RecyclerView mFragment_home_task_list;
-    private TextView mFragment_home_info_more;
-    private RecyclerView mFragment_home_info_list;
-    private RelativeLayout mProgressBar;
+    private RadioButton mFragment_sort_shop, mFragment_sort_visit, mFragment_sort_train;
+    private RelativeLayout mHome_fragment_task, mProgressBar;
+    private TextView mFragment_home_task_more, mFragment_home_info_more;
+    private RecyclerView mFragment_home_task_list, mFragment_home_info_list;
     private String userId;
     private boolean isLogin;
 
     private InfomationListAdapter mInfomationListAdapter;
+    private HomeTaskListAdapter mHomeTaskListAdapter;
+    private int mShowSize = 3;
+
     @Override
     public int getContentId() {
         return R.layout.fragment_home;
@@ -74,14 +75,14 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void init(View view) {
         super.init(view);
-        userId = SharePreUtil.GetShareString(getActivity(),"userid");
-        if (TextUtils.isEmpty(userId)){
+        userId = SharePreUtil.GetShareString(getActivity(), "userid");
+        if (TextUtils.isEmpty(userId)) {
             isLogin = false;
             Toast.makeText(getActivity(), R.string.please_login, Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             isLogin = true;
         }
-        if (views == null){
+        if (views == null) {
             views = new ArrayList<View>();
         }
         mHomeFragmentviewPager = (ViewPager) view.findViewById(R.id.fragment_img_viewpager);
@@ -101,19 +102,19 @@ public class HomeFragment extends BaseFragment {
         mFragment_home_info_list = (RecyclerView) view.findViewById(R.id.fragment_home_info_list);
         mProgressBar = (RelativeLayout) view.findViewById(R.id.home_progress);
         mProgressBar.setVisibility(View.VISIBLE);//设置Loding
-        if (isLogin){
+        if (isLogin) {
             //登陆了则显示任务列表
             mHome_fragment_task.setVisibility(View.VISIBLE);
             mFragment_home_task_list.setVisibility(View.VISIBLE);
         }
-        mFragment_home_task_list.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        mFragment_home_info_list.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        mFragment_home_task_list.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        mFragment_home_info_list.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mFragment_home_info_list.setNestedScrollingEnabled(false);
+        mFragment_home_task_list.setNestedScrollingEnabled(false);
     }
 
     /**
-     *下载轮播图的数据
-     *
+     * 下载轮播图的数据
      */
     @Override
     protected void loadDatas() {
@@ -125,32 +126,33 @@ public class HomeFragment extends BaseFragment {
                 try {
                     Log.d("print", "onFaild: 去数据库里面获取");
                     List<AnnImages> img_List = DataSupport.findAll(AnnImages.class);
-                    if (img_List != null){
+                    if (img_List != null) {
                         updateBanner(img_List);
                     }
                 } catch (Exception e1) {
                     Log.d("print", "onFaild: 数据库寻找AnnImageResult.BodyBean.class加载失败");
-                    Log.d("print", "onFaild: 失败的理由"+e.getMessage());
+                    Log.d("print", "onFaild: 失败的理由" + e.getMessage());
                     e1.printStackTrace();
                 }
             }
+
             @Override
             public void onSuccess(String response) {
                 // 下载成功
                 String annDatas = response.toString();
-                Log.d("print", "onSuccess: 首页信息" +annDatas);
+                Log.d("print", "onSuccess: 首页信息" + annDatas);
                 AnnImageResult annInfoData = GetJsonDatas.getAnnInfoData(annDatas);
-                Log.d("print", "onSuccess:顶部图片的信息 " +annInfoData.getBody().get(0).getImgUrl());
+                Log.d("print", "onSuccess:顶部图片的信息 " + annInfoData.getBody().get(0).getImgUrl());
                 // 顶部ImgList;
                 List<AnnImages> img_List = annInfoData.getBody();
-                if (img_List == null){
+                if (img_List == null) {
                     img_List = new ArrayList<AnnImages>();
-                    Log.d("print", "onSuccess: 图片的URL"+img_List.get(0).getImgUrl());
+                    Log.d("print", "onSuccess: 图片的URL" + img_List.get(0).getImgUrl());
                 }
                 // 更新轮播图
                 updateBanner(img_List);
                 // 保存到数据库;更新缓存
-                if (img_List.size() > 0){
+                if (img_List.size() > 0) {
                    /* try {
                         // 删除数据库缓存
                         DataSupport.deleteAll(AnnImages.class);
@@ -171,7 +173,15 @@ public class HomeFragment extends BaseFragment {
         OkHttpManager.getInstance().getNet(Constant.Info + "?pagenum=" + 1 + "&type=" + 0, new OkHttpManager.ResultCallback() {
             @Override
             public void onFaild(Request request, IOException e) {
-                //失败则去数据库获取
+                //失败则去数据库获取---
+                mProgressBar.setVisibility(View.GONE);
+                mRl_http_failed.setVisibility(View.VISIBLE);
+                //资讯展示数据
+                List<InfomationBody> infomationBody = DataSupport.findAll(InfomationBody.class);
+                if (infomationBody != null) {
+                    mInfomationListAdapter = new InfomationListAdapter(getContext(), infomationBody, mShowSize);
+                    mFragment_home_info_list.setAdapter(mInfomationListAdapter);
+                }
 
             }
 
@@ -179,11 +189,11 @@ public class HomeFragment extends BaseFragment {
             public void onSuccess(String response) {
                 //得到数据---解析---设置适配器
                 mProgressBar.setVisibility(View.GONE);//隐藏Loding条
-                Infomation infomation = GetJsonDatas.getInfomation(response.toString());
+                Infomation infomation = GetJsonDatas.getInfomationData(response.toString());
                 List<InfomationBody> infomationBody = infomation.getBody();
-                Log.d("print", "onSuccess: 资讯信息----"+infomation.getBody().get(0).getTitle());
+                Log.d("print", "onSuccess: 资讯信息----" + infomation.getBody().get(0).getTitle());
                 if (infomationBody != null) {
-                    mInfomationListAdapter = new InfomationListAdapter(getContext(),infomationBody,3);
+                    mInfomationListAdapter = new InfomationListAdapter(getContext(), infomationBody, mShowSize);
                     mFragment_home_info_list.setAdapter(mInfomationListAdapter);
                     DataSupport.deleteAll(InfomationBody.class);
                     DataSupport.saveAll(infomationBody);
@@ -191,19 +201,35 @@ public class HomeFragment extends BaseFragment {
             }
         });
         //登陆后下载最新任务
-        if (isLogin){
+        if (isLogin) {
             OkHttpManager.getInstance().getNet(Constant.Task + "?pagenum=" + 1, new OkHttpManager.ResultCallback() {
                 @Override
                 public void onFaild(Request request, IOException e) {
-
+                    mProgressBar.setVisibility(View.GONE);
+                    mRl_http_failed.setVisibility(View.VISIBLE);
+                    //----去数据库获取
+                    List<HomeTaskBody> homeBodyList = DataSupport.findAll(HomeTaskBody.class);
+                    if (homeBodyList != null){
+                        mHomeTaskListAdapter = new HomeTaskListAdapter(getContext(),homeBodyList,mShowSize);
+                        mFragment_home_task_list.setAdapter(mHomeTaskListAdapter);
+                    }
                 }
+
                 @Override
                 public void onSuccess(String response) {
-
+                    HomeTask taskData = GetJsonDatas.getHomeTaskData(response.toString());
+                    List<HomeTaskBody> homeBodyList = taskData.getTaskBody();
+                    if (homeBodyList != null){
+                        mHomeTaskListAdapter = new HomeTaskListAdapter(getContext(),homeBodyList,mShowSize);
+                        mFragment_home_task_list.setAdapter(mHomeTaskListAdapter);
+                        DataSupport.deleteAll(HomeTaskBody.class);
+                        DataSupport.saveAll(homeBodyList);
+                    }
                 }
             });
         }
     }
+
     /**
      * 根据公告图片地址动态更新界面
      */
@@ -217,16 +243,16 @@ public class HomeFragment extends BaseFragment {
                     .load(Constant.BaseUrl + images.getImgUrl())
                     .into(img);
             views.add(img);
-            Log.d("print", "updateBanner: views的数量"+views.size());
+            Log.d("print", "updateBanner: views的数量" + views.size());
         }
         //更新界面显示
         hmViewpageAdapter.notifyDataSetChanged();
         //显示图片的下标
         initLayout();
         //开启计时器
-        if (mTimer == null){
+        if (mTimer == null) {
             mTimer = new Timer();
-            mTimer.schedule(task,0,3000);
+            mTimer.schedule(task, 0, 3000);
         }
     }
 
@@ -235,11 +261,11 @@ public class HomeFragment extends BaseFragment {
      */
     private void initLayout() {
         mLinearLayout.removeAllViews();//移除所有指示下标布局;
-        for ( int i = 0; i < views.size(); i++) {
+        for (int i = 0; i < views.size(); i++) {
             ImageView img = new ImageView(getActivity());
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(5,0,5,0);
+            layoutParams.setMargins(5, 0, 5, 0);
             img.setLayoutParams(layoutParams);
             img.setImageResource(R.drawable.sns_v2_page_point);
             final int l = i;
@@ -250,17 +276,17 @@ public class HomeFragment extends BaseFragment {
                     mHomeFragmentviewPager.setCurrentItem(l);
                 }
             });
-            if (i == 0){
+            if (i == 0) {
                 img.setSelected(true);
             }
             mLinearLayout.addView(img);
         }
     }
 
-    Handler mHandler = new Handler(){
+    Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case Constant.Scroll:
                     mHomeFragmentviewPager.setCurrentItem(count);
                     break;
@@ -271,10 +297,10 @@ public class HomeFragment extends BaseFragment {
     TimerTask task = new TimerTask() {
         @Override
         public void run() {
-            if (count == views.size()){
+            if (count == views.size()) {
                 count = 0;
-            } else{
-              count = count + 1;
+            } else {
+                count = count + 1;
             }
             mHandler.sendEmptyMessage(Constant.Scroll);
         }
@@ -314,18 +340,20 @@ public class HomeFragment extends BaseFragment {
             Log.d("print", "onPageSelected: 滑动了图片" + position);
             for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
                 ImageView childAtImg = (ImageView) mLinearLayout.getChildAt(i);
-                if (i == position){
+                if (i == position) {
                     childAtImg.setSelected(true);
-                }else {
+                } else {
                     childAtImg.setSelected(false);
                 }
 
             }
         }
+
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
         }
+
         @Override
         public void onPageScrollStateChanged(int state) {
 
