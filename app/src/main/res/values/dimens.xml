@@ -21,7 +21,7 @@
     <dimen name="title_bar_text_size">20sp</dimen>
     <dimen name="title_bar_save_right">25dp</dimen>
     <dimen name="title_bar_save_bootom">12dp</dimen>
-
+    <dimen name="relativelayout_progressBar">110dp</dimen>
     <!--Bottom-->
     <dimen name="bottom_img_padding">6dip</dimen>
     <dimen name="bottom_img_left">24dp</dimen>
@@ -37,5 +37,12 @@
     <dimen name="home_fragment_item_size">12sp</dimen>
     <dimen name="home_fragment_title_left">23dp</dimen>
     <dimen name="home_fragment_info_item_size">14sp</dimen>
-
+    <!--VisitShopActivity-->
+    <dimen name="shop_activity_search_left">42dp</dimen>
+    <dimen name="shop_activity_search_padding">9dp</dimen>
+    <dimen name="shop_activity_item_padding">15dp</dimen>
+    <dimen name="shop_activity_item_top">8dp</dimen>
+    <dimen name="line_padding">2dp</dimen>
+    <dimen name="edittext_input_padding">4dp</dimen>
+    <dimen name="search_text_size">16sp</dimen>
 </resources>

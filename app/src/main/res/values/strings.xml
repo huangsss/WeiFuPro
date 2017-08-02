@@ -22,6 +22,22 @@
     <string name="fragment_home_info">最新资讯</string>
     <string name="fragment_home_task">最新任务</string>
     <string name="fragment_home_more">更多</string>
+    <!--create visit activity-->
+    <string name="activity_createvisit_shopname">店面名称：</string>
+    <string name="activity_createvisit_shopname_hint">请输入店面名称</string>
+    <string name="activity_createvisit_shopid">店面编号：</string>
+    <string name="activity_createvisit_shopwhere">店面位置：</string>
+    <string name="activity_createvisit_shopwhere_hint">详细地址（如门牌号等）</string>
+    <string name="activity_createvisit_title_img">图片采集</string>
+    <string name="activity_createvisit_title_score">评分&#038;意见反馈</string>
+    <string name="activity_createvisit_score_shop">店面整洁：</string>
+    <string name="activity_createvisit_score_person">人员服务：</string>
+    <string name="activity_createvisit_score_product">产品推荐：</string>
+    <string name="activity_createvisit_edit_hint">请输入您的反馈，最多500字。\n点击时弹出软键盘。</string>
+    <string name="activity_createvisit_save">临时保存</string>
+    <string name="activity_createvisit_submit">立即提交</string>
+    <string name="activity_visitshop_search">输入店铺名称或ID搜索</string>
+
     <!--toast语句-->
     <string name="search_none">没有搜到相关信息</string>
     <string name="please_resubmit">网络不给力，请重新提交</string>

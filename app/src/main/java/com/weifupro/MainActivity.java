@@ -129,7 +129,7 @@ public class MainActivity extends BaseFragmentActivity {
                         mTitle_bar_more.setVisibility(View.GONE);
                         mTitle_bar_change.setVisibility(View.VISIBLE);
                         mTitle_bar_save.setVisibility(View.VISIBLE);
-                        mTitle_bar_back.setVisibility(View.VISIBLE);
+                        mTitle_bar_back.setVisibility(View.GONE);
                         mViewPager.setCurrentItem(1,false);
                         setTitleName("巡店");
                         break;

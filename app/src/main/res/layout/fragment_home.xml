@@ -214,7 +214,6 @@
         </LinearLayout>
     </ScrollView>
 <include
-    android:id="@+id/home_progress"
     layout="@layout/progressbar_custom_rl"
     android:visibility="gone"
     />

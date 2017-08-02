@@ -5,8 +5,8 @@
     android:id="@+id/rl_progressbar">
 
     <RelativeLayout
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="@dimen/relativelayout_progressBar"
+        android:layout_height="@dimen/relativelayout_progressBar"
         android:layout_centerInParent="true"
         android:background="@drawable/shape_corner_gray"
         android:gravity="center"

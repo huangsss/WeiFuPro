@@ -16,6 +16,7 @@ import com.weifupro.R;
  */
 
 public abstract class BaseFragment extends Fragment{
+
     private Activity mActivity;
 
     @Override
@@ -33,8 +34,6 @@ public abstract class BaseFragment extends Fragment{
 
     /**
      * 该方法紧跟onCreateView执行
-     * @param view
-     * @param savedInstanceState
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

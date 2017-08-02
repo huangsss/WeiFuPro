@@ -1,13 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_search_shop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="#f2f2f2"
+        android:paddingBottom="@dimen/title_bar_back_bottom"
+        android:paddingLeft="@dimen/bottom_img_left"
+        android:paddingRight="@dimen/bottom_img_left"
+        android:paddingTop="@dimen/title_bar_back_bottom">
+
+        <RelativeLayout
+            android:id="@+id/shop_rl_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_bg">
+
+            <EditText
+                android:id="@+id/et_search_shop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/shop_activity_search_left"
+                android:background="@drawable/shape_edittext_input"
+                android:focusableInTouchMode="true"
+                android:hint="@string/activity_visitshop_search"
+                android:imeOptions="actionSearch"
+                android:maxLength="30"
+                android:padding="@dimen/shop_activity_search_padding"
+                android:singleLine="true"
+                android:textColor="#c2c2c2"
+                android:textSize="@dimen/home_fragment_info_item_size" />
+        </RelativeLayout>
+    </RelativeLayout>
 
     <TextView
+        android:id="@+id/search_none_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:text="shop"/>
-</LinearLayout>
+        android:layout_centerInParent="true"
+        android:text="@string/search_none"
+        android:textColor="@color/bottom_all_bg_color_pressed"
+        android:textSize="@dimen/search_text_size"
+        android:visibility="visible" />
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/fragment_shop_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_search_shop"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/bottom_img_left"
+        android:paddingRight="@dimen/title_bar_add_right"
+        android:scrollbars="none"></com.jcodecraeer.xrecyclerview.XRecyclerView>
+
+
+    <include
+        layout="@layout/progressbar_custom_rl"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/fragment_shop_refrensh"
+        android:layout_width="@dimen/relativelayout_progressBar"
+        android:layout_height="@dimen/relativelayout_progressBar"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/shop_http_failed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_menu_refresh" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/shop_http_failed"
+            android:layout_centerInParent="true"
+            android:text="@string/http_failed_click_refresh"
+            android:textColor="@color/red"
+            android:textSize="11sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

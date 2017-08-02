@@ -48,6 +48,7 @@ public class BaseFragmentActivity extends AppCompatActivity {
 		super.setContentView(layoutResID);
 		if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
 		//4.0  这个一个boolean值的内部属性，让view可以根据系统窗口(如status bar)来调整自己的布局，
 		//    如果值为true,就会调整view的paingding属性来给system windows留出空间....

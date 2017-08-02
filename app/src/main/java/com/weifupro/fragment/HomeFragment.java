@@ -83,7 +83,7 @@ public class HomeFragment extends BaseFragment {
             isLogin = true;
         }
         if (views == null) {
-            views = new ArrayList<View>();
+            views = new ArrayList<>();
         }
         mHomeFragmentviewPager = (ViewPager) view.findViewById(R.id.fragment_img_viewpager);
         mLinearLayout = (LinearLayout) view.findViewById(R.id.fragment_point_subscript);
@@ -100,8 +100,8 @@ public class HomeFragment extends BaseFragment {
         mFragment_home_task_list = (RecyclerView) view.findViewById(R.id.fragment_home_task_list);
         mFragment_home_info_more = (TextView) view.findViewById(R.id.fragment_home_info_more);
         mFragment_home_info_list = (RecyclerView) view.findViewById(R.id.fragment_home_info_list);
-        mProgressBar = (RelativeLayout) view.findViewById(R.id.home_progress);
-        mProgressBar.setVisibility(View.VISIBLE);//设置Loding
+        mProgressBar = (RelativeLayout) view.findViewById(R.id.rl_progressbar);
+        mProgressBar.setVisibility(View.VISIBLE);//设置Loding;
         if (isLogin) {
             //登陆了则显示任务列表
             mHome_fragment_task.setVisibility(View.VISIBLE);
@@ -122,6 +122,7 @@ public class HomeFragment extends BaseFragment {
         OkHttpManager.getInstance().getNet(Constant.Announcement, new OkHttpManager.ResultCallback() {
             @Override
             public void onFaild(Request request, IOException e) {
+                mProgressBar.setVisibility(View.GONE);
                 // 下载失败; 则去数据库里面获取.再更新
                 try {
                     Log.d("print", "onFaild: 去数据库里面获取");
@@ -139,14 +140,11 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onSuccess(String response) {
                 // 下载成功
-                String annDatas = response.toString();
-                Log.d("print", "onSuccess: 首页信息" + annDatas);
-                AnnImageResult annInfoData = GetJsonDatas.getAnnInfoData(annDatas);
+                AnnImageResult annInfoData = GetJsonDatas.getAnnInfoData(response);
                 Log.d("print", "onSuccess:顶部图片的信息 " + annInfoData.getBody().get(0).getImgUrl());
-                // 顶部ImgList;
                 List<AnnImages> img_List = annInfoData.getBody();
                 if (img_List == null) {
-                    img_List = new ArrayList<AnnImages>();
+                    img_List = new ArrayList<>();
                     Log.d("print", "onSuccess: 图片的URL" + img_List.get(0).getImgUrl());
                 }
                 // 更新轮播图
@@ -188,8 +186,8 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onSuccess(String response) {
                 //得到数据---解析---设置适配器
-                mProgressBar.setVisibility(View.GONE);//隐藏Loding条
-                Infomation infomation = GetJsonDatas.getInfomationData(response.toString());
+                mProgressBar.setVisibility(View.GONE);//隐藏Loding
+                Infomation infomation = GetJsonDatas.getInfomationData(response);
                 List<InfomationBody> infomationBody = infomation.getBody();
                 Log.d("print", "onSuccess: 资讯信息----" + infomation.getBody().get(0).getTitle());
                 if (infomationBody != null) {
@@ -217,7 +215,7 @@ public class HomeFragment extends BaseFragment {
 
                 @Override
                 public void onSuccess(String response) {
-                    HomeTask taskData = GetJsonDatas.getHomeTaskData(response.toString());
+                    HomeTask taskData = GetJsonDatas.getHomeTaskData(response);
                     List<HomeTaskBody> homeBodyList = taskData.getTaskBody();
                     if (homeBodyList != null){
                         mHomeTaskListAdapter = new HomeTaskListAdapter(getContext(),homeBodyList,mShowSize);
@@ -256,9 +254,6 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
-    /**
-     *
-     */
     private void initLayout() {
         mLinearLayout.removeAllViews();//移除所有指示下标布局;
         for (int i = 0; i < views.size(); i++) {

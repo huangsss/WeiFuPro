@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <!--主页Acyivity-->
-<activity android:name=".MainActivity"/>
+<activity android:name=".MainActivity" />
     </application>
 
 </manifest>

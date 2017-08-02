@@ -7,7 +7,7 @@ public class Constant {
     public static final int Scroll = 2;//通知图片轮播
 
 
-    public static final String BaseUrl = "http://192.168.31.197:8080";//模拟器根接口 C:\Windows\System32\drivers\etc查看hosts文件;
+    public static final String BaseUrl = "http://10.0.1.221:8080";//模拟器根接口 C:\Windows\System32\drivers\etc查看hosts文件;
     // win+R cmd 输入ipconfig 查看自己的ipv4地址;http://10.0.1.221:8080
     //public static final String BaseUrl = "http://192.168.9.232:8080";//根接口
     public static final String Login = BaseUrl + "/visitshop/login";//登录get
