@@ -24,6 +24,9 @@
     <color name="bottom_text_color">#666666</color>
     <!--MainActivity-->
     <color name="gray_bg">#efe7e3</color>
+    <color name="gray_shop">#999999</color>
     <!--HomeFragment-->
     <color name="home_title_text_color">#333333</color>
+
+
 </resources>

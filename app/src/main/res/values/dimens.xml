@@ -45,4 +45,12 @@
     <dimen name="line_padding">2dp</dimen>
     <dimen name="edittext_input_padding">4dp</dimen>
     <dimen name="search_text_size">16sp</dimen>
+    <dimen name="shop_activity_item_left">23dp</dimen>
+    <dimen name="shop_activity_item_top_text">12sp</dimen>
+    <dimen name="shop_activity_item_text">14sp</dimen>
+    <dimen name="shop_activity_item_height">64sp</dimen>
+    <dimen name="shop_activity_item_img_right">30sp</dimen>
+    <dimen name="shop_activity_item_view_height">1sp</dimen>
+
+
 </resources>

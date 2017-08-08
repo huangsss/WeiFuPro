@@ -57,7 +57,9 @@
         android:background="@color/white"
         android:paddingLeft="@dimen/bottom_img_left"
         android:paddingRight="@dimen/title_bar_add_right"
-        android:scrollbars="none"></com.jcodecraeer.xrecyclerview.XRecyclerView>
+        android:scrollbars="none">
+
+    </com.jcodecraeer.xrecyclerview.XRecyclerView>
 
 
     <include

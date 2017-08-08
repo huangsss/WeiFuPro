@@ -48,4 +48,6 @@
     <string name="http_failed">网络请求失败，请检查网络</string>
     <string name="image_no_exist">图片已不存在</string>
     <string name="photo_help_text">&#160;&#160;&#160;&#160;注意：拍照不得少于2张，为培训开始一张和培训结束一张。第一张和最后一张时间间隔不得少于1分钟</string>
+    <string name="shop_item_name">店面名称：</string>
+    <string name="shop_item_time">巡店日期： </string>
 </resources>
