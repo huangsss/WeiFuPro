@@ -1,5 +1,6 @@
 package com.weifupro;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.weifupro.activity.BaseFragmentActivity;
+import com.weifupro.activity.NewShopActivity;
 import com.weifupro.fragment.HomeFragment;
 import com.weifupro.fragment.MeFragment;
 import com.weifupro.fragment.ShopFragment;
@@ -67,11 +69,11 @@ public class MainActivity extends BaseFragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        userId = SharePreUtil.GetShareString(mActivity,"userid");
-        if ("".equals(userId)){
+        userId = SharePreUtil.GetShareString(mActivity, "userid");
+        if ("".equals(userId)) {
             Log.d("print", "onResume: 未登陆");
             Toast.makeText(mContext, "你未登录！", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             isLogin = true;
         }
     }
@@ -88,8 +90,6 @@ public class MainActivity extends BaseFragmentActivity {
         mTitle_bar_save = (ImageView) findViewById(R.id.title_bar_save);
         mTitle_bar_change = (ImageView) findViewById(R.id.title_bar_change);
         mTitle_bar_back = (TextView) findViewById(R.id.title_bar_back);
-
-
     }
 
     private void initView() {
@@ -99,7 +99,7 @@ public class MainActivity extends BaseFragmentActivity {
         fragmentList.add(new VisitFragment());
         fragmentList.add(new TrainFragment());
         fragmentList.add(new MeFragment());
-        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);
+        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragmentList);
         mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.setOffscreenPageLimit(3);//一次性加载3个Fragment;
         mMain_rg.getChildAt(0).performClick();//默认点击主页;
@@ -116,13 +116,13 @@ public class MainActivity extends BaseFragmentActivity {
         mMain_rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.main_rb1:
                         mTitle_bar_more.setVisibility(GONE);
                         mTitle_bar_change.setVisibility(GONE);
                         mTitle_bar_back.setVisibility(GONE);
                         mTitle_bar_save.setVisibility(GONE);
-                        mViewPager.setCurrentItem(0,false);// false 去除ViewPager的滑动效果
+                        mViewPager.setCurrentItem(0, false);// false 去除ViewPager的滑动效果
                         setTitleName("首页");
                         break;
                     case R.id.main_rb2:
@@ -130,7 +130,7 @@ public class MainActivity extends BaseFragmentActivity {
                         mTitle_bar_change.setVisibility(View.VISIBLE);
                         mTitle_bar_save.setVisibility(View.VISIBLE);
                         mTitle_bar_back.setVisibility(View.GONE);
-                        mViewPager.setCurrentItem(1,false);
+                        mViewPager.setCurrentItem(1, false);
                         setTitleName("巡店");
                         break;
                     case R.id.main_rb3:
@@ -138,7 +138,7 @@ public class MainActivity extends BaseFragmentActivity {
                         mTitle_bar_change.setVisibility(GONE);
                         mTitle_bar_save.setVisibility(GONE);
                         mTitle_bar_back.setVisibility(View.GONE);
-                        mViewPager.setCurrentItem(2,false);
+                        mViewPager.setCurrentItem(2, false);
                         setTitleName("拜访");
                         break;
                     case R.id.main_rb4:
@@ -146,7 +146,7 @@ public class MainActivity extends BaseFragmentActivity {
                         mTitle_bar_change.setVisibility(GONE);
                         mTitle_bar_save.setVisibility(GONE);
                         mTitle_bar_back.setVisibility(View.GONE);
-                        mViewPager.setCurrentItem(3,false);
+                        mViewPager.setCurrentItem(3, false);
                         setTitleName("培训");
                         break;
                     case R.id.main_rb5:
@@ -154,7 +154,7 @@ public class MainActivity extends BaseFragmentActivity {
                         mTitle_bar_change.setVisibility(GONE);
                         mTitle_bar_back.setVisibility(GONE);
                         mTitle_bar_save.setVisibility(GONE);
-                        mViewPager.setCurrentItem(4,false);
+                        mViewPager.setCurrentItem(4, false);
                         setTitleName("个人中心");
                         break;
                 }
@@ -168,9 +168,10 @@ public class MainActivity extends BaseFragmentActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
+
             @Override
             public void onPageSelected(int position) {
-                switch (position){
+                switch (position) {
                     case 0:
                         mMain_rb1.setChecked(true);
                         break;
@@ -188,6 +189,7 @@ public class MainActivity extends BaseFragmentActivity {
                         break;
                 }
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
             }
@@ -197,9 +199,10 @@ public class MainActivity extends BaseFragmentActivity {
     /**
      * ViewPager的适配器
      */
-    private class ViewPagerAdapter extends FragmentPagerAdapter{
+    private class ViewPagerAdapter extends FragmentPagerAdapter {
         private List<Fragment> fragmentList;
-        public ViewPagerAdapter(FragmentManager fm,List<Fragment> fragmentList) {
+
+        public ViewPagerAdapter(FragmentManager fm, List<Fragment> fragmentList) {
             super(fm);
             this.fragmentList = fragmentList;
         }
@@ -215,4 +218,22 @@ public class MainActivity extends BaseFragmentActivity {
         }
     }
 
+    public void topOnclick(View view) {
+        if (!isLogin){
+            Toast.makeText(this, "请您先登录!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        switch (view.getId()) {
+            case R.id.title_bar_save:
+                //跳转至新建训店界面;
+                startActivity(new Intent(MainActivity.this, NewShopActivity.class));
+                break;
+            case R.id.title_bar_more:
+
+                break;
+            case R.id.title_bar_change:
+
+                break;
+        }
+    }
 }

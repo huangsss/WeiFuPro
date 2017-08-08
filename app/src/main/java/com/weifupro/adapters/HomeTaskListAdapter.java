@@ -20,10 +20,16 @@ public class HomeTaskListAdapter extends RecyclerView.Adapter<HomeTaskListAdapte
     private Context mContext;
     private List<HomeTaskBody> mList;
     private int number;
+    private RecycleViewItemOnClick mRecycleViewItemOnclick;
+
     public HomeTaskListAdapter(Context mContext, List<HomeTaskBody> mList,int number) {
         this.mContext = mContext;
         this.mList = mList;
         this.number = number;
+    }
+
+    public void setmRecycleViewItemOnclick(RecycleViewItemOnClick mRecycleViewItemOnclick) {
+        this.mRecycleViewItemOnclick = mRecycleViewItemOnclick;
     }
 
     @Override
@@ -32,8 +38,16 @@ public class HomeTaskListAdapter extends RecyclerView.Adapter<HomeTaskListAdapte
     }
 
     @Override
-    public void onBindViewHolder(taskViewHolder holder, int position) {
+    public void onBindViewHolder(taskViewHolder holder, final int position) {
         holder.title.setText(mList.get(position).getTitle());
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mRecycleViewItemOnclick != null){
+                        mRecycleViewItemOnclick.onReclycleViewitemonClick(v,position);
+                    }
+                }
+            });
     }
 
     @Override
@@ -52,5 +66,9 @@ public class HomeTaskListAdapter extends RecyclerView.Adapter<HomeTaskListAdapte
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.fragment_home_task_item_title);
         }
+    }
+
+    public interface RecycleViewItemOnClick{
+        public void onReclycleViewitemonClick(View view,int position);
     }
 }

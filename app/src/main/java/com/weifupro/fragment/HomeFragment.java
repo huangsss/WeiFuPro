@@ -111,6 +111,8 @@ public class HomeFragment extends BaseFragment {
         mFragment_home_info_list.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mFragment_home_info_list.setNestedScrollingEnabled(false);
         mFragment_home_task_list.setNestedScrollingEnabled(false);
+
+
     }
 
     /**
@@ -222,6 +224,14 @@ public class HomeFragment extends BaseFragment {
                         mFragment_home_task_list.setAdapter(mHomeTaskListAdapter);
                         DataSupport.deleteAll(HomeTaskBody.class);
                         DataSupport.saveAll(homeBodyList);
+
+                        mHomeTaskListAdapter.setmRecycleViewItemOnclick(new HomeTaskListAdapter.RecycleViewItemOnClick() {
+                            @Override
+                            public void onReclycleViewitemonClick(View view, int position) {
+                                Toast.makeText(getActivity(), "点击了RecycleView的Item", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                     }
                 }
             });

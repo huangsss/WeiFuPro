@@ -39,22 +39,21 @@
         android:paddingBottom="@dimen/title_bar_add_bottom"
         android:paddingLeft="@dimen/title_bar_add_padding"
         android:paddingRight="@dimen/title_bar_add_right"
-        android:onClick="btnOnclick"
         android:visibility="gone"
-        />
+        android:onClick="topOnclick" />
     <ImageView
         android:id="@+id/title_bar_save"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:src="@drawable/title_bar_save"
         android:paddingTop="@dimen/title_bar_save_bootom"
         android:paddingBottom="@dimen/title_bar_save_bootom"
         android:paddingLeft="@dimen/title_bar_save_right"
         android:paddingRight="@dimen/title_bar_save_right"
         android:visibility="visible"
-        />
+        android:onClick="topOnclick"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
 
     <ImageView
         android:id="@+id/title_bar_change"
@@ -67,6 +66,7 @@
         android:paddingRight="@dimen/title_bar_histroy_right"
         android:visibility="visible"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/title_bar_save" />
+        android:layout_toStartOf="@+id/title_bar_save"
+        android:onClick="topOnclick"/>
     	
 </RelativeLayout>

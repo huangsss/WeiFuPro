@@ -4,5 +4,5 @@
     <item android:state_selected="true" android:drawable="@drawable/img_checked"/>
     <item android:state_checked="true" android:drawable="@drawable/img_checked"/>
     <item android:state_selected="false" android:drawable="@drawable/task_arrow"/>
-    <item android:state_checked="false" android:drawable="@drawable/task_arrow"/>
+
 </selector>
