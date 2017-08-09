@@ -50,4 +50,12 @@
     <string name="photo_help_text">&#160;&#160;&#160;&#160;注意：拍照不得少于2张，为培训开始一张和培训结束一张。第一张和最后一张时间间隔不得少于1分钟</string>
     <string name="shop_item_name">店面名称：</string>
     <string name="shop_item_time">巡店日期： </string>
+
+    <!--fragment MeFragment-->
+    <string name="fragment_me_tv_me">个人资料 </string>
+    <string name="fragment_me_tv_clear">清除缓存 </string>
+    <string name="fragment_me_tv_feedback">意见反馈 </string>
+    <string name="fragment_me_tv_about">关于APP </string>
+    <string name="fragment_me_tv_version">新版本检测 </string>
+    <string name="fragment_me_tv_exit">退出应用 </string>
 </resources>
