@@ -31,7 +31,6 @@ public abstract class BaseFragment extends Fragment{
         View view = inflater.inflate(getContentId(),container,false);
         return view;
     }
-
     /**
      * 该方法紧跟onCreateView执行
      */
